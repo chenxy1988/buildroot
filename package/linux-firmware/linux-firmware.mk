@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LINUX_FIRMWARE_VERSION = 20230625
+LINUX_FIRMWARE_VERSION = 20231030
 LINUX_FIRMWARE_SOURCE = linux-firmware-$(LINUX_FIRMWARE_VERSION).tar.xz
 LINUX_FIRMWARE_SITE = $(BR2_KERNEL_MIRROR)/linux/kernel/firmware
 LINUX_FIRMWARE_INSTALL_IMAGES = YES
@@ -90,7 +90,12 @@ LINUX_FIRMWARE_FILES += \
 	rtl_bt/rtl8821c_config.bin rtl_bt/rtl8821c_fw.bin \
 	rtl_bt/rtl8822b_config.bin rtl_bt/rtl8822b_fw.bin \
 	rtl_bt/rtl8822cs_config.bin rtl_bt/rtl8822cs_fw.bin \
-	rtl_bt/rtl8822cu_config.bin rtl_bt/rtl8822cu_fw.bin
+	rtl_bt/rtl8822cu_config.bin rtl_bt/rtl8822cu_fw.bin \
+	rtl_bt/rtl8851bu_fw.bin rtl_bt/rtl8851bu_config.bin \
+	rtl_bt/rtl8852au_fw.bin rtl_bt/rtl8852au_config.bin \
+	rtl_bt/rtl8852bu_fw.bin rtl_bt/rtl8852bu_config.bin \
+	rtl_bt/rtl8852cu_fw.bin rtl_bt/rtl8852cu_config.bin \
+	rtl_bt/rtl8852cu_fw_v2.bin
 LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.rtlwifi_firmware.txt
 endif
 
@@ -527,6 +532,11 @@ LINUX_FIRMWARE_FILES += iwlwifi-so-a0-gf-a0*.{ucode,pnvm}
 LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.iwlwifi_firmware
 endif
 
+ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_QUZ),y)
+LINUX_FIRMWARE_FILES += iwlwifi-QuZ-*.ucode
+LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.iwlwifi_firmware
+endif
+
 ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_BROADCOM_TIGON3),y)
 LINUX_FIRMWARE_FILES += tigon/*
 # No license file; the license is in the file WHENCE
@@ -614,6 +624,12 @@ LINUX_FIRMWARE_FILES += \
 	rtl_nic/rtl8402-1.fw \
 	rtl_nic/rtl8411-1.fw \
 	rtl_nic/rtl8411-2.fw
+endif
+
+ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_MARVELL_PRESTERA),y)
+LINUX_FIRMWARE_FILES += \
+	mrvl/prestera/mvsw_prestera_fw*.img
+LINUX_FIRMWARE_ALL_LICENSE_FILES += LICENCE.Marvell
 endif
 
 ifeq ($(BR2_PACKAGE_LINUX_FIRMWARE_XCx000),y)

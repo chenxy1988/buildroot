@@ -50,8 +50,11 @@ ELFUTILS_LDFLAGS += -latomic
 endif
 
 ifeq ($(BR2_TOOLCHAIN_USES_GLIBC),)
-ELFUTILS_DEPENDENCIES += musl-fts
-ELFUTILS_LDFLAGS += -lfts
+ELFUTILS_DEPENDENCIES += musl-fts argp-standalone
+endif
+
+ifeq ($(BR2_TOOLCHAIN_USES_UCLIBC),y)
+ELFUTILS_CONF_OPTS += --disable-symbol-versioning
 endif
 
 # disable for now, needs "distro" support
@@ -60,11 +63,6 @@ HOST_ELFUTILS_CONF_OPTS += --disable-libdebuginfod --disable-debuginfod
 
 ELFUTILS_CONF_ENV += \
 	LDFLAGS="$(ELFUTILS_LDFLAGS)"
-
-ifeq ($(BR2_TOOLCHAIN_USES_UCLIBC),y)
-ELFUTILS_DEPENDENCIES += argp-standalone
-ELFUTILS_CONF_OPTS += --disable-symbol-versioning
-endif
 
 ifeq ($(BR2_INSTALL_LIBSTDCPP),y)
 ELFUTILS_CONF_OPTS += --enable-demangler
