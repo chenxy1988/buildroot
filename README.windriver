@@ -1,0 +1,7 @@
+Kernel Test bed
+----------------
+
+This branch is WRLinux kernel test bed based on Buildroot.
+The BR2 configuration is designed for kernel test only, other functions are
+*NOT* be verified, DO NOT USE IT IN A PRODUCTION!
+
