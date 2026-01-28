@@ -4,11 +4,11 @@
 #
 ################################################################################
 
-PYTHON_FLASK_JSONRPC_VERSION = 2.2.2
-PYTHON_FLASK_JSONRPC_SOURCE = Flask-JSONRPC-$(PYTHON_FLASK_JSONRPC_VERSION).tar.gz
-PYTHON_FLASK_JSONRPC_SITE = https://files.pythonhosted.org/packages/a5/7b/8cbd53084a1efb58a1105905a38b0cbefcd3ae13ef2c90c07eedf0fdb6dc
+PYTHON_FLASK_JSONRPC_VERSION = 4.0.0
+PYTHON_FLASK_JSONRPC_SOURCE = flask_jsonrpc-$(PYTHON_FLASK_JSONRPC_VERSION).tar.gz
+PYTHON_FLASK_JSONRPC_SITE = https://files.pythonhosted.org/packages/b9/2e/74dcb729aa2f5b49d4731cfaab5cb5fbfd867906ba7a0a6e32c66779dbb6
 PYTHON_FLASK_JSONRPC_LICENSE = BSD-3-Clause
-PYTHON_FLASK_JSONRPC_LICENSE_FILES = LICENSE COPYING
-PYTHON_FLASK_JSONRPC_SETUP_TYPE = setuptools
+PYTHON_FLASK_JSONRPC_LICENSE_FILES = LICENSE.txt
+PYTHON_FLASK_JSONRPC_SETUP_TYPE = hatch
 
 $(eval $(python-package))

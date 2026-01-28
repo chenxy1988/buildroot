@@ -1,3 +1,4 @@
+# from https://pypi.org/project/crudini/#files
+sha256  c2af311a0833857a1449d821a312edc6109f0c2d6d81d76c2d954a76b05e6b14  crudini-0.9.6.tar.gz
 # locally computed
-sha256  e1b8125ac4373ece3bb0bb047ba9336e5bd55ed5d56b9729968058c9385ab546  crudini-0.9.3.tar.gz
 sha256  8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643  COPYING

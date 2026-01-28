@@ -1,2 +1,4 @@
-# Locally computed
-sha256  67d8f99f1ccf23e7ebdfa2c3be0b09f147949fd9511d1e6748b7f412ef046e1f  pyalsa-1.2.7.tar.bz2
+# Locally computed, after checking pgp signature from:
+# https://www.alsa-project.org/files/pub/pyalsa/pyalsa-1.2.14.tar.bz2.sig
+# with key F04DF50737AC1A884C4B3D718380596DA6E59C91
+sha256  4603736f40648684196fb826c97704c93ca80b32ec17d066b3276a9ed1a30939  pyalsa-1.2.14.tar.bz2

@@ -1,6 +1,6 @@
-# retrieved by scancpan from http://cpan.metacpan.org/
-md5  ff7621d0350da3052f24db9a74692672  libwww-perl-6.67.tar.gz
-sha256  96eec40a3fd0aa1bd834117be5eb21c438f73094d861a1a7e5774f0b1226b723  libwww-perl-6.67.tar.gz
+# retrieved by scancpan from https://cpan.metacpan.org/
+md5  dd84e119517e07a1af261b8eb1fafe1e  libwww-perl-6.81.tar.gz
+sha256  ab30552f194e8b5ae3ac0885132fd1d4ea04c4c7fe6555765b98f01af70c1736  libwww-perl-6.81.tar.gz
 
 # computed by scancpan
-sha256  311f168ba9a7819ffab4fea19858f9e880737baf6d112929d11530205035a4cc  LICENSE
+sha256  994ab45a4f8ef43f47b7baabc48d100838c42d226d8d161d6ac1f49c5f9d7c84  LICENSE

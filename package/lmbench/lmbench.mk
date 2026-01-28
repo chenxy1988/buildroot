@@ -4,9 +4,8 @@
 #
 ################################################################################
 
-LMBENCH_VERSION = 3.0-a9
-LMBENCH_SOURCE = lmbench-$(LMBENCH_VERSION).tgz
-LMBENCH_SITE = http://downloads.sourceforge.net/project/lmbench/development/lmbench-$(LMBENCH_VERSION)
+LMBENCH_VERSION = 8b3ddfa52ee4a886abe5af4550f404142966eb88
+LMBENCH_SITE = $(call github,intel,lmbench,$(LMBENCH_VERSION))
 LMBENCH_LICENSE = lmbench license (based on GPL-2.0)
 LMBENCH_LICENSE_FILES = COPYING COPYING-2
 
@@ -26,7 +25,6 @@ LMBENCH_POST_PATCH_HOOKS += UPDATE_CONFIG_HOOK
 
 define LMBENCH_CONFIGURE_CMDS
 	sed -i 's/CFLAGS=/CFLAGS+=/g' $(@D)/src/Makefile
-	sed -i 's/LDLIBS=/LDLIBS+=/g' $(@D)/scripts/build
 	sed -i '/cd .*doc/d' $(@D)/src/Makefile
 	sed -i '/include/d' $(@D)/src/Makefile
 	touch $@

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBSSH2_VERSION = 1.11.0
+LIBSSH2_VERSION = 1.11.1
 LIBSSH2_SOURCE= libssh2-$(LIBSSH2_VERSION).tar.xz
 LIBSSH2_SITE = https://www.libssh2.org/download
 LIBSSH2_LICENSE = BSD

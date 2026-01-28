@@ -8,7 +8,7 @@ GDB_VERSION = $(call qstrip,$(BR2_GDB_VERSION))
 GDB_SITE = $(BR2_GNU_MIRROR)/gdb
 GDB_SOURCE = gdb-$(GDB_VERSION).tar.xz
 
-ifeq ($(BR2_arc),y)
+ifeq ($(BR2_GDB_VERSION_ARC),y)
 GDB_SITE = $(call github,foss-for-synopsys-dwc-arc-processors,binutils-gdb,$(GDB_VERSION))
 GDB_SOURCE = gdb-$(GDB_VERSION).tar.gz
 GDB_FROM_GIT = y
@@ -30,9 +30,7 @@ GDB_PRE_CONFIGURE_HOOKS += GDB_CONFIGURE_SYMLINK
 # For the host variant, we really want to build with XML support,
 # which is needed to read XML descriptions of target architectures. We
 # also need ncurses.
-# As for libiberty, gdb may use a system-installed one if present, so
-# we must ensure ours is installed first.
-HOST_GDB_DEPENDENCIES = host-expat host-libiberty host-ncurses host-zlib
+HOST_GDB_DEPENDENCIES = host-expat host-readline host-zlib
 
 # Disable building documentation
 GDB_MAKE_OPTS += MAKEINFO=true
@@ -56,11 +54,8 @@ GDB_DEPENDENCIES += host-flex host-bison
 HOST_GDB_DEPENDENCIES += host-flex host-bison
 endif
 
-# All newer versions of GDB need host-gmp, so it's only for older
-# versions that the dependency can be avoided.
-ifeq ($(BR2_arc),)
-HOST_GDB_DEPENDENCIES += host-gmp
-endif
+# All newer versions of GDB need host-gmp and host-mpfr
+HOST_GDB_DEPENDENCIES += host-gmp host-mpfr
 
 # When gdb sources are fetched from the binutils-gdb repository, they
 # also contain the binutils sources, but binutils shouldn't be built,
@@ -141,9 +136,10 @@ ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),y)
 GDB_DEPENDENCIES += zlib
 GDB_CONF_OPTS += \
 	--enable-gdb \
+	--with-system-readline \
 	--with-curses \
 	--with-system-zlib
-GDB_DEPENDENCIES += ncurses \
+GDB_DEPENDENCIES += readline \
 	$(if $(BR2_PACKAGE_LIBICONV),libiconv)
 else
 # When only building gdbserver, we don't need zlib. But we have no way to
@@ -158,17 +154,15 @@ GDB_CONF_OPTS += \
 endif
 
 # Starting from GDB 11.x, gmp is needed as a dependency to build full
-# gdb. So we avoid the dependency only for the special version used on
-# ARC.
-ifeq ($(BR2_arc):$(BR2_PACKAGE_GDB_DEBUGGER),:y)
+# gdb.
+ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),y)
 GDB_CONF_OPTS += \
 	--with-libgmp-prefix=$(STAGING_DIR)/usr
 GDB_DEPENDENCIES += gmp
 endif
 
-# Starting from GDB 14.x, mpfr is needed as a dependency to build full
-# gdb.
-ifeq ($(BR2_GDB_VERSION_14)$(BR2_PACKAGE_GDB_DEBUGGER),yy)
+# mpfr is needed as a dependency to build full gdb
+ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),y)
 GDB_DEPENDENCIES += mpfr
 GDB_CONF_OPTS += --with-mpfr=$(STAGING_DIR)
 else
@@ -176,17 +170,14 @@ GDB_CONF_OPTS += --without-mpfr
 endif
 
 ifeq ($(BR2_PACKAGE_GDB_SERVER),y)
-GDB_CONF_OPTS += --enable-gdbserver
-GDB_DEPENDENCIES += $(TARGET_NLS_DEPENDENCIES)
+GDB_CONF_OPTS += \
+	--enable-gdbserver \
+	--with-system-readline
+GDB_DEPENDENCIES += \
+	$(TARGET_NLS_DEPENDENCIES) \
+	readline
 else
 GDB_CONF_OPTS += --disable-gdbserver
-endif
-
-# When gdb is built as C++ application for ARC it segfaults at runtime
-# So we pass --disable-build-with-cxx config option to force gdb not to
-# be built as C++ app.
-ifeq ($(BR2_arc),y)
-GDB_CONF_OPTS += --disable-build-with-cxx
 endif
 
 # gdb 7.12+ by default builds with a C++ compiler, which doesn't work
@@ -201,6 +192,7 @@ GDB_CONF_OPTS += --disable-inprocess-agent
 endif
 
 ifeq ($(BR2_PACKAGE_GDB_TUI),y)
+GDB_DEPENDENCIES += ncurses
 GDB_CONF_OPTS += --enable-tui
 else
 GDB_CONF_OPTS += --disable-tui
@@ -276,17 +268,12 @@ HOST_GDB_CONF_OPTS = \
 	--with-system-zlib \
 	--with-curses \
 	--disable-source-highlight \
-	$(GDB_DISABLE_BINUTILS_CONF_OPTS)
-
-# GDB newer than 14.x need host-mpfr
-ifeq ($(BR2_GDB_VERSION_14),y)
-HOST_GDB_DEPENDENCIES += host-mpfr
-HOST_GDB_CONF_OPTS += --with-mpfr=$(HOST_DIR)
-else
-HOST_GDB_CONF_OPTS += --without-mpfr
-endif
+	--with-system-readline \
+	$(GDB_DISABLE_BINUTILS_CONF_OPTS) \
+	--with-mpfr=$(HOST_DIR)
 
 ifeq ($(BR2_PACKAGE_HOST_GDB_TUI),y)
+HOST_GDB_DEPENDENCIES += host-ncurses
 HOST_GDB_CONF_OPTS += --enable-tui
 else
 HOST_GDB_CONF_OPTS += --disable-tui
